@@ -1,0 +1,3 @@
+#define THTTP_MAJOR @thttp_VERSION_MAJOR@
+#define THTTP_MINOR @thttp_VERSION_MINOR@
+#define THTTP_PATCH @thttp_VERSION_PATCH@
