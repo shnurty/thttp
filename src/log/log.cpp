@@ -5,6 +5,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <string>
 #include <thread>
 
 #include "ckr.h"
@@ -29,7 +30,7 @@ namespace log
       va_end(va_args); \
       \
       ckr::check_buffer_bounds(bufsize); \
-      buf = mm::allocate(bufsize); \
+      buf = mm::MemoryManagerFactory::instance()->allocate(bufsize); \
       \
       va_start(va_args, ifmt); \
       (void) vsnprintf(buf, bufsize, ifmt, va_args); \
@@ -86,14 +87,14 @@ namespace log
     oss << std::put_time(std::localtime(&tc), "[%F %T] ") << std::string(buffer);
 
     this->_qptr->push(oss.str());
-    if(this->_qptr->size() >= cm::ConfManagerFactory::get()->get(cm::LOGGER_BUFFERING_SIZE))
+    if(this->_qptr->size() >= cm::ConfManagerFactory::instance()->get<std::size_t>(cm::LOGGER_BUFFERING_SIZE))
       this->flush();
   }
 
   // ---------------------------------------------
   Logger::Logger() :_mtx(), _q(), _bq(), _qptr(&_q)
   {
-    const std::string& log_fn = cm::ConfManagerFactory::get()->get(cm::LOGGER_KEY);
+    const std::string& log_fn = cm::ConfManagerFactory::instance()->get<std::string>(cm::LOGGER_KEY);
     this->_ofs = std::ofstream(log_fn, std::ios_base::app);
   }
 
