@@ -10,15 +10,14 @@ namespace ex
   #endif
 
   // ---------------------------------------------
-  class OutOfBoundsError :public std::out_of_range
+  class IllegalKeyError :public std::invalid_argument
   {
   public:
-    OutOfBoundsError() throw() :std::out_of_range(EXCEPTION_UNKNOWN_MESSAGE)
+    IllegalKeyError() throw() :std::invalid_argument(EXCEPTION_UNKNOWN_MESSAGE)
     { }
 
-    OutOfBoundsError(const std::string& what) throw() :std::out_of_range(what)
+    IllegalKeyError(const std::string& what) throw() :std::invalid_argument(what)
     { }
   };
 
 }
-
