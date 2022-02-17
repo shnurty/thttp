@@ -13,7 +13,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_LIB_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BIN_DIR})
 
 project(thttp VERSION 0.0.1)
+configure_file(${PROJECT_CFG_DIR}/const.h.in ${PROJECT_GEN_DIR}/const.h)
 configure_file(${PROJECT_CFG_DIR}/version.h.in ${PROJECT_GEN_DIR}/version.h)
+
+configure_file(${PROJECT_CFG_DIR}/thttp.conf.in ${PROJECT_BIN_DIR}/thttp.conf)
 
 add_subdirectory(${PROJECT_SRC_DIR})
 add_executable(thttp ${PROJECT_SRC_DIR}/main.cpp)
