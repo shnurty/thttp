@@ -1,0 +1,4 @@
+#pragma once
+
+#define HTTPD_CONFFILE_PATH "@PROJECT_BIN_DIR@/thttp.conf"
+
