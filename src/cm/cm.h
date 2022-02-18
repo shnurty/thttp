@@ -1,7 +1,7 @@
-#include <unordered_map>
-#include <string>
-
 #pragma once
+
+#include <string>
+#include <unordered_map>
 
 #include "ex/ik.h"
 #include "ex/is.h"
@@ -36,20 +36,6 @@ namespace cm
     template<typename T>
     T get(const std::string&);
   };
-
-  // ---------------------------------------------
-  template<>
-  std::string ConfManager::get<std::string>(const std::string& ikey)
-  {
-    return this->_get(ikey);
-  }
-
-  template<>
-  std::size_t ConfManager::get<std::size_t>(const std::string& ikey)
-  {
-    const std::string& _v = this->_get(ikey);
-    return std::atoi(_v.c_str());
-  }
 
   // ---------------------------------------------
   class ConfManagerFactory final

@@ -30,13 +30,14 @@ namespace log
       va_end(va_args); \
       \
       ckr::check_buffer_bounds(bufsize); \
-      buf = mm::MemoryManagerFactory::instance()->allocate(bufsize); \
+      buf = (char*) mm::MemoryManagerFactory::instance()->allocate(bufsize); \
       \
       va_start(va_args, ifmt); \
       (void) vsnprintf(buf, bufsize, ifmt, va_args); \
       va_end(va_args); \
       \
       this->log(LL, buf); \
+      mm::MemoryManagerFactory::instance()->dispose(buf); \
     } while(false); 
 
 
@@ -47,7 +48,7 @@ namespace log
   void Logger::flush()
   {
     if((this->_qptr != &(this->_q)) || (!this->_ofs.is_open()))
-      throw ex::InconsistentStateError();
+      throw ex::InconsistentStateError("bad pointer assigned or output stream not opened");
 
     // lock for shallow-copy
     {

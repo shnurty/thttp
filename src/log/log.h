@@ -1,10 +1,10 @@
+#pragma once
+
 #include <fstream>
 #include <mutex>
 #include <queue>
 
 #include <cstdarg>
-
-#pragma once
 
 // ---------------------------------------------
 namespace log

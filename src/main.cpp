@@ -5,6 +5,9 @@
 
 int main(void)
 {
-  log("hey there!");
+  log::Logger* logger = new log::Logger();
+  logger->info("hey there!");
+
+  delete logger;
   return 0;
 }

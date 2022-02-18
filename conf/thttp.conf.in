@@ -1,0 +1,3 @@
+BufferMaxSize = 8192
+LoggerBufferingSize = 50
+LoggerKey = @PROJECT_BIN_DIR@/thttp.log
