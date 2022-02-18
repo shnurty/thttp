@@ -3,6 +3,7 @@
 #include "ex/oom.h"
 #include "ex/is.h"
 
+#include "fm.h"
 #include "mm.h"
 
 // ---------------------------------------------
@@ -12,15 +13,7 @@ namespace mm
   // ---------------------------------------------
   MemoryManager::~MemoryManager()
   {
-    while(!this->_pool.empty())
-    {
-      auto pit = this->_pool.begin();
-      void* ptr = *pit;
-
-      pit = this->_pool.erase(pit);
-      free(ptr);
-      ptr = NULL;
-    }
+    this->destroy();
   }
 
   // ---------------------------------------------
@@ -45,13 +38,31 @@ namespace mm
   }
 
   // ---------------------------------------------
+  void MemoryManager::destroy()
+  {
+    while(!this->_pool.empty())
+    {
+      auto pit = this->_pool.begin();
+      void* ptr = *pit;
+
+      pit = this->_pool.erase(pit);
+      free(ptr);
+      ptr = NULL;
+    }
+  }
+
+  // ---------------------------------------------
   MemoryManager* MemoryManagerFactory::_mmptr = NULL;
 
   // ---------------------------------------------
   MemoryManager* MemoryManagerFactory::instance()
   {
     if(MemoryManagerFactory::_mmptr == NULL)
+    {
       MemoryManagerFactory::_mmptr = new MemoryManager();
+
+      REGISTER(MemoryManagerFactory::_mmptr)
+    }
 
     return MemoryManagerFactory::_mmptr;
   }

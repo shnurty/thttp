@@ -3,6 +3,7 @@
 
 #include "cm.h"
 #include "const.h"
+#include "fm.h"
 
 #include "ex/ik.h"
 #include "ex/is.h"
@@ -53,6 +54,10 @@ namespace cm
   }
 
   // ---------------------------------------------
+  void ConfManager::destroy()
+  { }
+
+  // ---------------------------------------------
   std::string ConfManager::_get(const std::string& ikey)
   {
     auto it = this->_m.find(ikey);
@@ -93,6 +98,8 @@ namespace cm
     {
       ConfManagerFactory::_cmptr = new ConfManager();
       ConfManagerFactory::_cmptr->init(__get_conffile_abspath());
+
+      REGISTER(ConfManagerFactory::_cmptr)
     }
 
     return ConfManagerFactory::_cmptr;

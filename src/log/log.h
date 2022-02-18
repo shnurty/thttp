@@ -6,6 +6,8 @@
 
 #include <cstdarg>
 
+#include "des.h"
+
 // ---------------------------------------------
 namespace log
 {
@@ -21,8 +23,10 @@ namespace log
   } en_loglevel;
 
   // ---------------------------------------------
-  class Logger final
+  class Logger final :public intf::Destroyable
   {
+  friend class LoggerFactory;
+
   private:
     std::mutex _mtx;
     std::ofstream _ofs;
@@ -31,14 +35,33 @@ namespace log
     void flush();
     void log(const en_loglevel, const char*);
 
-  public:
     Logger();
     ~Logger();
 
+  public:
     void debug(const char*, ...);
     void info(const char*, ...);
     void warn(const char*, ...);
     void error(const char*, ...);
+
+    void destroy() override;
+
+  };
+
+  // ---------------------------------------------
+  class LoggerFactory final
+  {
+  private:
+    static Logger* _lptr;
+
+    LoggerFactory() = delete;
+    LoggerFactory(const LoggerFactory&) = delete;
+
+    ~LoggerFactory() = delete;
+
+  public:
+    static Logger* instance();
+
   };
 
 }

@@ -3,6 +3,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "des.h"
+
 #include "ex/ik.h"
 #include "ex/is.h"
 
@@ -16,7 +18,7 @@ namespace cm
   const std::string LOGGER_KEY            = "LoggerKey";
 
   // ---------------------------------------------
-  class ConfManager
+  class ConfManager :public intf::Destroyable
   {
   friend class ConfManagerFactory;
 
@@ -32,6 +34,8 @@ namespace cm
 
   public:
     ~ConfManager() = default;
+
+    void destroy() override;
 
     template<typename T>
     T get(const std::string&);

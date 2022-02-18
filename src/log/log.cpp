@@ -10,11 +10,13 @@
 
 #include "ckr.h"
 #include "cm.h"
+#include "fm.h"
 #include "log.h"
 #include "mm.h"
 
 #include "ex/is.h"
 
+// ---------------------------------------------
 namespace log
 {
 
@@ -102,10 +104,7 @@ namespace log
   // ---------------------------------------------
   Logger::~Logger()
   {
-    this->flush();
-
-    this->_qptr = NULL;
-    this->_ofs.close();
+    this->destroy();
   }
 
   // ---------------------------------------------
@@ -130,6 +129,31 @@ namespace log
   void Logger::error(const char* ifmt, ...)
   {
     LOG_BODY(ERROR)
+  }
+
+  // ---------------------------------------------
+  void Logger::destroy()
+  {
+    this->flush();
+
+    this->_qptr = NULL;
+    this->_ofs.close();
+  }
+
+  // ---------------------------------------------
+  Logger* LoggerFactory::_lptr = NULL;
+
+  // ---------------------------------------------
+  Logger* LoggerFactory::instance()
+  {
+    if(LoggerFactory::_lptr == NULL)
+    {
+      LoggerFactory::_lptr = new Logger();
+
+      REGISTER(LoggerFactory::_lptr)
+    }
+
+    return LoggerFactory::_lptr;
   }
 
 }

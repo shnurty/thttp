@@ -2,12 +2,14 @@
 
 #include <unordered_set>
 
+#include "des.h"
+
 // ---------------------------------------------
 namespace mm
 {
 
   // ---------------------------------------------
-  class MemoryManager
+  class MemoryManager :public intf::Destroyable
   {
   friend class MemoryManagerFactory;
 
@@ -22,6 +24,8 @@ namespace mm
 
     void* allocate(size_t);
     void dispose(void*);
+
+    void destroy() override;
 
   };
 
